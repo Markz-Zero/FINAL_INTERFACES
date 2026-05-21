@@ -8,7 +8,7 @@ import time
 # =====================================================
 
 st.set_page_config(
-    page_title="Sistema IoT Inteligente",
+    page_title="Sistema IoT",
     page_icon="💡",
     layout="wide"
 )
@@ -67,7 +67,7 @@ def enviar_puerta(accion):
 # TÍTULO
 # =====================================================
 
-st.title("🏠 Sistema IoT Inteligente")
+st.title("🏠 Sistema IoT")
 st.markdown("---")
 
 # =====================================================
@@ -95,21 +95,21 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
 
-    st.subheader("LED Azul")
+    st.subheader("Sala")
 
-    led1 = st.toggle("Estado LED 1")
+    led1 = st.toggle("prender/apagar")
 
     if led1:
 
         enviar_led("led1", "on")
 
-        st.success("LED 1 Encendido")
+        st.success("Bombillo encendido")
 
     else:
 
         enviar_led("led1", "off")
 
-        st.warning("LED 1 Apagado")
+        st.warning("Bombillo apagado")
 
 # =====================================================
 # LED 2
@@ -117,21 +117,21 @@ with col1:
 
 with col2:
 
-    st.subheader("LED Verde")
+    st.subheader("Cocina")
 
-    led2 = st.toggle("Estado LED 2")
+    led2 = st.toggle("prender/apagar")
 
     if led2:
 
         enviar_led("led2", "on")
 
-        st.success("LED 2 Encendido")
+        st.success("Bombillo encendido")
 
     else:
 
         enviar_led("led2", "off")
 
-        st.warning("LED 2 Apagado")
+        st.warning("Bombillo apagado")
 
 # =====================================================
 # LED 3
@@ -139,21 +139,21 @@ with col2:
 
 with col3:
 
-    st.subheader("LED Rojo")
+    st.subheader("Baño")
 
-    led3 = st.toggle("Estado LED 3")
+    led3 = st.toggle("prender/apagar")
 
     if led3:
 
         enviar_led("led3", "on")
 
-        st.success("LED 3 Encendido")
+        st.success("Bombillo encendido")
 
     else:
 
         enviar_led("led3", "off")
 
-        st.warning("LED 3 Apagado")
+        st.warning("Bombillo apagado")
 
 # =====================================================
 # SEPARADOR
