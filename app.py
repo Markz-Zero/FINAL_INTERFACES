@@ -1,73 +1,257 @@
+```python
 import streamlit as st
 import paho.mqtt.client as mqtt
 import json
 import time
 
-# =========================
-# CONFIG MQTT
-# =========================
+# =====================================================
+# CONFIGURACIÓN GENERAL
+# =====================================================
+
+st.set_page_config(
+    page_title="Sistema IoT Inteligente",
+    page_icon="💡",
+    layout="wide"
+)
+
+# =====================================================
+# MQTT
+# =====================================================
 
 BROKER = "broker.mqttdashboard.com"
 PORT = 1883
 TOPIC = "sg/iot1"
 
-# =========================
+# =====================================================
 # CLIENTE MQTT
-# =========================
+# =====================================================
 
-client = mqtt.Client(
-    mqtt.CallbackAPIVersion.VERSION1,
-    client_id="streamlit-control"
-)
+client = mqtt.Client("streamlit-sg-iot1")
+
+mqtt_ok = False
 
 try:
     client.connect(BROKER, PORT)
     client.loop_start()
     mqtt_ok = True
-except:
+except Exception as e:
     mqtt_ok = False
+    st.error(f"Error MQTT: {e}")
 
-# =========================
-# INTERFAZ
-# =========================
+# =====================================================
+# FUNCIONES MQTT
+# =====================================================
 
-st.title("Control IoT")
+def enviar_led(dispositivo, estado):
+
+    mensaje = {
+        "dispositivo": dispositivo,
+        "estado": estado
+    }
+
+    client.publish(TOPIC, json.dumps(mensaje))
+
+
+def enviar_puerta(accion):
+
+    mensaje = {
+        "puerta": accion
+    }
+
+    client.publish(TOPIC, json.dumps(mensaje))
+
+
+# =====================================================
+# TÍTULO
+# =====================================================
+
+st.title("🏠 Sistema IoT Inteligente")
+st.markdown("---")
+
+# =====================================================
+# ESTADO MQTT
+# =====================================================
 
 if mqtt_ok:
-    st.success("MQTT conectado")
+    st.success("✅ Conectado al Broker MQTT")
 else:
-    st.error("MQTT desconectado")
+    st.error("❌ No conectado al Broker MQTT")
 
-# =========================
-# BOTONES LED1
-# =========================
+# =====================================================
+# SECCIÓN LEDS
+# =====================================================
 
-st.header("LED 1")
+st.header("💡 Control de Bombillos LED")
 
-col1, col2 = st.columns(2)
+st.write("Control táctil de iluminación")
+
+col1, col2, col3 = st.columns(3)
+
+# =====================================================
+# LED 1
+# =====================================================
 
 with col1:
 
-    if st.button("Encender LED"):
+    st.subheader("LED Azul")
 
-        mensaje = {
-            "dispositivo": "led1",
-            "estado": "on"
-        }
+    led1 = st.toggle("Estado LED 1")
 
-        client.publish(TOPIC, json.dumps(mensaje))
+    if led1:
 
-        st.success("LED encendido")
+        enviar_led("led1", "on")
+
+        st.success("LED 1 Encendido")
+
+    else:
+
+        enviar_led("led1", "off")
+
+        st.warning("LED 1 Apagado")
+
+# =====================================================
+# LED 2
+# =====================================================
 
 with col2:
 
-    if st.button("Apagar LED"):
+    st.subheader("LED Verde")
 
-        mensaje = {
-            "dispositivo": "led1",
-            "estado": "off"
-        }
+    led2 = st.toggle("Estado LED 2")
 
-        client.publish(TOPIC, json.dumps(mensaje))
+    if led2:
 
-        st.warning("LED apagado")
+        enviar_led("led2", "on")
+
+        st.success("LED 2 Encendido")
+
+    else:
+
+        enviar_led("led2", "off")
+
+        st.warning("LED 2 Apagado")
+
+# =====================================================
+# LED 3
+# =====================================================
+
+with col3:
+
+    st.subheader("LED Rojo")
+
+    led3 = st.toggle("Estado LED 3")
+
+    if led3:
+
+        enviar_led("led3", "on")
+
+        st.success("LED 3 Encendido")
+
+    else:
+
+        enviar_led("led3", "off")
+
+        st.warning("LED 3 Apagado")
+
+# =====================================================
+# SEPARADOR
+# =====================================================
+
+st.markdown("---")
+
+# =====================================================
+# CONTROL DE PUERTA
+# =====================================================
+
+st.header("🚪 Sistema Inteligente de Puerta")
+
+st.write(
+    """
+    Escribe comandos como:
+
+    - abre la puerta
+    - abrir puerta
+    - cerrar puerta
+    - cierra la puerta
+    - open door
+    - close door
+    """
+)
+
+comando = st.text_input(
+    "Ingrese el comando:",
+    placeholder="Ejemplo: abre la puerta"
+)
+
+# =====================================================
+# BOTÓN ENVÍO
+# =====================================================
+
+if st.button("Enviar comando"):
+
+    texto = comando.lower().strip()
+
+    # ==========================================
+    # LISTAS DE COMANDOS
+    # ==========================================
+
+    comandos_abrir = [
+
+        "abre la puerta",
+        "abrir puerta",
+        "abrir",
+        "open door",
+        "open",
+
+    ]
+
+    comandos_cerrar = [
+
+        "cerrar puerta",
+        "cierra la puerta",
+        "cerrar",
+        "close door",
+        "close"
+
+    ]
+
+    # ==========================================
+    # INTERPRETACIÓN
+    # ==========================================
+
+    if texto in comandos_abrir:
+
+        enviar_puerta("abrir")
+
+        st.success("🚪 Puerta Abierta")
+
+    elif texto in comandos_cerrar:
+
+        enviar_puerta("cerrar")
+
+        st.warning("🚪 Puerta Cerrada")
+
+    else:
+
+        st.error("❌ Comando no reconocido")
+
+# =====================================================
+# INFORMACIÓN MQTT
+# =====================================================
+
+st.markdown("---")
+
+with st.expander("Información del sistema"):
+
+    st.write(f"Broker MQTT: {BROKER}")
+    st.write(f"Puerto: {PORT}")
+    st.write(f"Topic MQTT: {TOPIC}")
+
+# =====================================================
+# PIE DE PÁGINA
+# =====================================================
+
+st.markdown("---")
+
+st.caption("Sistema IoT ESP32 + MQTT + Streamlit + Wokwi")
+```
