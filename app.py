@@ -95,21 +95,21 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
 
-    st.subheader("Sala")
+    st.subheader("LED Azul")
 
-    led1 = st.toggle("prender/apagar")
+    led1 = st.toggle("Estado LED 1")
 
     if led1:
 
         enviar_led("led1", "on")
 
-        st.success("Bombillo encendido")
+        st.success("LED 1 Encendido")
 
     else:
 
         enviar_led("led1", "off")
 
-        st.warning("Bombillo apagado")
+        st.warning("LED 1 Apagado")
 
 # =====================================================
 # LED 2
@@ -117,21 +117,21 @@ with col1:
 
 with col2:
 
-    st.subheader("Cocina")
+    st.subheader("LED Verde")
 
-    led2 = st.toggle("prender/apagar")
+    led2 = st.toggle("Estado LED 2")
 
     if led2:
 
         enviar_led("led2", "on")
 
-        st.success("Bombillo encendido")
+        st.success("LED 2 Encendido")
 
     else:
 
         enviar_led("led2", "off")
 
-        st.warning("Bombillo apagado")
+        st.warning("LED 2 Apagado")
 
 # =====================================================
 # LED 3
@@ -139,21 +139,21 @@ with col2:
 
 with col3:
 
-    st.subheader("Baño")
+    st.subheader("LED Rojo")
 
-    led3 = st.toggle("prender/apagar")
+    led3 = st.toggle("Estado LED 3")
 
     if led3:
 
         enviar_led("led3", "on")
 
-        st.success("Bombillo encendido")
+        st.success("LED 3 Encendido")
 
     else:
 
         enviar_led("led3", "off")
 
-        st.warning("Bombillo apagado")
+        st.warning("LED 3 Apagado")
 
 # =====================================================
 # SEPARADOR
