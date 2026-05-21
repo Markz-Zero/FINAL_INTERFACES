@@ -25,7 +25,10 @@ TOPIC = "sg/iot1"
 # CLIENTE MQTT
 # =====================================================
 
-client = mqtt.Client("streamlit-sg-iot1")
+client = mqtt.Client(
+    mqtt.CallbackAPIVersion.VERSION1,
+    client_id="streamlit-control"
+)
 
 mqtt_ok = False
 
