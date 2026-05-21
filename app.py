@@ -253,4 +253,3 @@ with st.expander("Información del sistema"):
 st.markdown("---")
 
 st.caption("Sistema IoT ESP32 + MQTT + Streamlit + Wokwi")
-```
