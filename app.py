@@ -18,6 +18,7 @@ TOPIC = "sg/iot1"
 client = mqtt.Client(
     mqtt.CallbackAPIVersion.VERSION1,
     client_id="streamlit-control"
+)
 
 try:
     client.connect(BROKER, PORT)
