@@ -9,7 +9,7 @@ import time
 
 BROKER = "broker.mqttdashboard.com"
 PORT = 1883
-TOPIC = "casa/control"
+TOPIC = "sg/iot1"
 
 client = mqtt.Client("streamlit-client")
 
